@@ -1,0 +1,21 @@
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.0;
+
+import "hardhat/console.sol";
+import "./Token.sol";
+
+// [ ] Manage Pool
+// [ ] Manage Deposits
+// [ ] Facilitate Swaps/Trades
+// [ ] Manage Withdraws
+
+contract QUANTIPOOL {
+    // Try putting these on same line with (,)
+    Token public token1;
+    Token public token2;
+
+    constructor(Token _token1, Token _token2) {
+        token1 = _token1;
+        token2 = _token2;
+    }
+}
