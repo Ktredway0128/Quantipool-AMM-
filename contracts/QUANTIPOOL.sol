@@ -4,9 +4,9 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 import "./Token.sol";
 
-// [ ] Manage Pool
-// [ ] Manage Deposits
-// [ ] Facilitate Swaps/Trades
+// [x] Manage Pool
+// [x] Manage Deposits
+// [x] Facilitate Swaps/Trades
 // [ ] Manage Withdraws
 
 contract QUANTIPOOL {
@@ -110,7 +110,7 @@ contract QUANTIPOOL {
             token2Amount --;
         }
 
-        require(token2Amount < token2Balance, "swap cannot exceed pool balance");
+        require(token2Amount < token2Balance, "swap amount too large");
     }
 
     function swapToken1(uint256 _token1Amount) 
@@ -136,6 +136,51 @@ contract QUANTIPOOL {
             token2Amount,
             token1Balance,
             token2Balance,
+            block.timestamp
+        );
+    }
+
+    function calculateToken2Swap(uint256 _token2Amount)
+        public
+        view
+        returns (uint256 token1Amount)
+    {
+        // Returns the amount of token2 received when swapping token1
+        uint256 token2After = token2Balance + _token2Amount;
+        uint token1After = K / token2After;
+        token1Amount = token1Balance - token1After;
+
+        // Don't let pool go to 0
+        if(token1Amount == token1Balance) {
+            token1Amount --;
+        }
+
+        require(token1Amount < token1Balance, "swap amount too large");
+    }
+
+    function swapToken2(uint256 _token2Amount) 
+        external 
+        returns(uint256 token1Amount) 
+    {
+        // Calculate Token 1 Amount
+        token1Amount = calculateToken2Swap(_token2Amount);
+
+        // Do Swap
+
+        token2.transferFrom(msg.sender, address(this), _token2Amount);
+        token2Balance += _token2Amount;
+        token1Balance -= token1Amount;
+        token1.transfer(msg.sender, token1Amount);
+
+        // Emit an event
+        emit Swap(
+            msg.sender,
+            address(token2),
+            _token2Amount,
+            address(token1),
+            token1Amount,
+            token2Balance,
+            token1Balance,
             block.timestamp
         );
     }

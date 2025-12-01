@@ -186,11 +186,11 @@ describe('QUANTIPOOL', () => {
             // Swap some more tokens to see what happens
 
             balance = await token2.balanceOf(investor1.address)
-            console.log(`Investor1 token2 balance before swap: ${ethers.utils.formatEther(balance)}\n`)
+            console.log(`Investor1 token2 balance before swap: ${ethers.utils.formatEther(balance)}`)
 
             // Estimate amount of tokens investor1 will receive after swapping token1: include slippage
             estimate = await quantipool.calculateToken1Swap(tokens(1))
-            console.log(`Estimate of token2 that investor1 will receive, including slippage: ${ethers.utils.formatEther(estimate)}\n`)
+            console.log(`Estimate of token2 that investor1 will receive, including slippage: ${ethers.utils.formatEther(estimate)}`)
 
             // Swap 1 more token
             transaction = await quantipool.connect(investor1).swapToken1(tokens(1))
@@ -207,6 +207,82 @@ describe('QUANTIPOOL', () => {
             // Check price after swap
 
             console.log(`Price: ${await quantipool.token2Balance() / await quantipool.token1Balance()} \n `)
+
+
+            // ////////////////////////////////////////////////////
+            // Investor1 swaps a large amount
+            // 
+
+            // Check investor balance before swap
+            balance = await token2.balanceOf(investor1.address)
+            console.log(`Investor1 token2 balance before swap: ${ethers.utils.formatEther(balance)}`)
+
+            // Estimate amount of tokens investor1 will receive after swapping token1: include slippage
+            estimate = await quantipool.calculateToken1Swap(tokens(100))
+            console.log(`Estimate of token2 that investor1 will receive, including slippage: ${ethers.utils.formatEther(estimate)}`)
+
+            // Swap 1 more token
+            transaction = await quantipool.connect(investor1).swapToken1(tokens(100))
+            await transaction.wait()
+
+            // Check investor1 balance after swap
+            balance = await token2.balanceOf(investor1.address)
+            console.log(`Investor1 balance of token2 after swap: ${ethers.utils.formatEther(balance)}\n`)
+
+            // Checking the balances are still in sync
+            expect(await token1.balanceOf(quantipool.address)).to.equal(await quantipool.token1Balance())
+            expect(await token2.balanceOf(quantipool.address)).to.equal(await quantipool.token2Balance())
+
+            // Check price after swap
+
+            console.log(`Price: ${await quantipool.token2Balance() / await quantipool.token1Balance()} \n `)
+
+
+            // ////////////////////////////////////////////////////
+            // Investor2 swaps token2 for token1
+            // 
+
+            // Investor2 approves all tokens
+            transaction = await token2.connect(investor2).approve(quantipool.address, tokens(100000))
+            await transaction.wait()
+            
+            // Check investor2 balance before swap
+            balance = await token1.balanceOf(investor2.address)
+            console.log(`Investor2 token1 balance before swap: ${ethers.utils.formatEther(balance)}`)
+
+            // Estimate amount of tokens investor2 will receive after swapping token2: include slippage
+            estimate = await quantipool.calculateToken2Swap(tokens(10000))
+            console.log(`Token1 amount investor2 will receive after swap: ${ethers.utils.formatEther(estimate)}`)
+
+            // Investor2 swaps 1 token
+            transaction = await quantipool.connect(investor2).swapToken2(tokens(10000))
+            await transaction.wait()
+
+            // Check swap event
+            await expect(transaction).to.emit(quantipool, 'Swap')
+                .withArgs(
+                    investor2.address,
+                    token2.address,
+                    tokens(1),
+                    token1.address,
+                    estimate,
+                    await quantipool.token2Balance(),
+                    await quantipool.token1Balance(),
+                    (await ethers.provider.getBlock(await ethers.provider.getBlockNumber())).timestamp
+                    )
+
+            // // Check investor2 balance after swap
+            balance = await token1.balanceOf(investor2.address)
+            console.log(`Investor2 token1 balance after swap: ${ethers.utils.formatEther(balance)}`)
+            expect(estimate).to.equal(balance)
+            
+
+            // Checking the balances are still in sync
+            expect(await token1.balanceOf(quantipool.address)).to.equal(await quantipool.token1Balance())
+            expect(await token2.balanceOf(quantipool.address)).to.equal(await quantipool.token2Balance())
+
+            // Check price after swap
+            console.log(`Price: ${await quantipool.token1Balance() / await quantipool.token2Balance()} \n `)
 
         })       
     })
