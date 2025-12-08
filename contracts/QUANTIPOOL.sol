@@ -6,7 +6,7 @@ import "./Token.sol";
 
 // [x] Manage Pool
 // [x] Manage Deposits
-// [x] Facilitate Swaps/Trades
+// [] Facilitate Swaps/Trades
 // [ ] Manage Withdraws
 
 contract QUANTIPOOL {
@@ -95,6 +95,8 @@ contract QUANTIPOOL {
         token1Amount = (token1Balance * _token2Amount) / token2Balance;
     }
 
+
+    
     function calculateToken1Swap(uint256 _token1Amount)
         public
         view
@@ -145,7 +147,7 @@ contract QUANTIPOOL {
         view
         returns (uint256 token1Amount)
     {
-        // Returns the amount of token2 received when swapping token1
+        // Returns the amount of token1 received when swapping token2
         uint256 token2After = token2Balance + _token2Amount;
         uint token1After = K / token2After;
         token1Amount = token1Balance - token1After;
@@ -183,6 +185,40 @@ contract QUANTIPOOL {
             token1Balance,
             block.timestamp
         );
+    }
+
+    // Calculate how many tokens will be withdrawn
+    function calculateWithdrawAmount(uint256 _share)
+        public
+        view
+        returns(uint256 token1Amount, uint256 token2Amount)
+    {
+        require(_share <= totalShares, "must be less than total shares");
+        token1Amount = (_share * token1Balance) / totalShares;
+        token2Amount = (_share * token2Balance) / totalShares;
+    }
+    
+    
+    // Removes liquidity from the pool
+    function removeLiquidity(uint256 _share) 
+        external 
+        returns(uint256 token1Amount, uint256 token2Amount) 
+    {
+        require(
+            _share <= shares[msg.sender],
+            "cannot withdraw more shares than you have"
+        );
+        (token1Amount, token2Amount) = calculateWithdrawAmount(_share);
+
+        shares[msg.sender] -= _share;
+        totalShares -= _share;
+
+        token1Balance -= token1Amount;
+        token2Balance -= token2Amount;
+        K = token1Balance * token2Balance;
+
+        token1.transfer(msg.sender, token1Amount);
+        token2.transfer(msg.sender, token2Amount);
     }
 
     

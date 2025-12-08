@@ -6,6 +6,7 @@ const tokens = (n) => {
 }
 
 const ether = tokens
+const shares = ether
 
 describe('QUANTIPOOL', () => {
     let accounts, 
@@ -105,7 +106,8 @@ describe('QUANTIPOOL', () => {
             // 
 
             // LP approves 50k tokens
-            amount = tokens(50000) 
+            amount = tokens(50000)
+            depositToken1 = tokens(0)
             transaction = await token1.connect(liquidityProvider).approve(quantipool.address, amount)
             await transaction.wait()
 
@@ -115,10 +117,10 @@ describe('QUANTIPOOL', () => {
             // Calculate token2 deposit amount
             let token2Deposit = await quantipool.calculateToken2Deposit(amount)
 
-            // LP adds liquidity
+            // // LP adds liquidity
             transaction = await quantipool.connect(liquidityProvider).addLiquidity(amount, token2Deposit)
             await transaction.wait()
-
+            
             // LP should have 50 shares
             expect(await quantipool.shares(liquidityProvider.address)).to.equal(tokens(50)) // Used token helper to calculate shares
 
@@ -128,6 +130,7 @@ describe('QUANTIPOOL', () => {
             // Pool should be 150 shares
             expect(await quantipool.totalShares()).to.equal(tokens(150))
 
+            
             // ////////////////////////////////////////////////////
             // Investor1 swaps
             // 
@@ -251,11 +254,11 @@ describe('QUANTIPOOL', () => {
             console.log(`Investor2 token1 balance before swap: ${ethers.utils.formatEther(balance)}`)
 
             // Estimate amount of tokens investor2 will receive after swapping token2: include slippage
-            estimate = await quantipool.calculateToken2Swap(tokens(10000))
+            estimate = await quantipool.calculateToken2Swap(tokens(1))
             console.log(`Token1 amount investor2 will receive after swap: ${ethers.utils.formatEther(estimate)}`)
 
             // Investor2 swaps 1 token
-            transaction = await quantipool.connect(investor2).swapToken2(tokens(10000))
+            transaction = await quantipool.connect(investor2).swapToken2(tokens(1))
             await transaction.wait()
 
             // Check swap event
@@ -282,8 +285,46 @@ describe('QUANTIPOOL', () => {
             expect(await token2.balanceOf(quantipool.address)).to.equal(await quantipool.token2Balance())
 
             // Check price after swap
-            console.log(`Price: ${await quantipool.token1Balance() / await quantipool.token2Balance()} \n `)
+            console.log(`Price: ${await quantipool.token2Balance() / await quantipool.token1Balance()} \n `)
 
+        
+                    // ////////////////////////////////////////////////////
+            // Removing Liquidity
+            // 
+
+            console.log(`QUANTIPOOL Token1 Balance: ${ethers.utils.formatEther(await quantipool.token1Balance())} \n`)
+            console.log(`QUANTIPOOL Token2 Balance: ${ethers.utils.formatEther(await quantipool.token2Balance())} \n`)
+
+            // Check Liquidity Provider shares before removing liquidity
+            balance = await token1.balanceOf(liquidityProvider.address)
+            console.log(`LP token1 balance before removing liquidity: ${ethers.utils.formatEther(balance)} \n`)
+
+            balance = await token2.balanceOf(liquidityProvider.address)
+            console.log(`LP token2 balance before removing liquidity: ${ethers.utils.formatEther(balance)} \n`)
+
+            // LP removes tokens
+
+            transaction = await quantipool.connect(liquidityProvider).removeLiquidity(shares(50)) 
+            await transaction.wait()
+
+            
+            // Balance after removing liquidity
+            balance = await token1.balanceOf(liquidityProvider.address)
+            console.log(`LP token1 amount after removing liquidity: ${ethers.utils.formatEther(balance)} \n`)
+
+            balance = await token2.balanceOf(liquidityProvider.address)
+            console.log(`LP token2 amount after removing liquidity: ${ethers.utils.formatEther(balance)} \n`)
+
+            // LP should have 0 shares
+            expect(await quantipool.shares(liquidityProvider.address)).to.equal(0)
+
+            // Deployer should have 100 shares
+            expect(await quantipool.shares(deployer.address)).to.equal(shares(100))
+
+            // QUANTIPOOL Pool has 100 total shares
+            expect(await quantipool.totalShares()).to.equal(shares(100))
+            
+        
         })       
     })
 })
