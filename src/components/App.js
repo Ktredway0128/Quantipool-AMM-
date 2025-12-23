@@ -10,15 +10,10 @@ import Loading from './Loading';
 import {  
   loadProvider,
   loadNetwork,
-  loadAccount
+  loadAccount,
+  loadTokens,
+  loadQUANTIPOOL
 } from '../store/interactions'
-
-// ABIs: Import your contract ABIs here
-// import TOKEN_ABI from '../abis/Token.json'
-
-// Config: Import your network config here
-// import config from '../config.json';
-
 
 function App() {
 
@@ -33,6 +28,9 @@ function App() {
     // Fetch accounts
     await loadAccount(dispatch)
 
+    // Initiate contracts
+    await loadTokens(provider, chainId, dispatch)
+    await loadQUANTIPOOL(provider, chainId, dispatch)
   }
 
   useEffect(() => {
