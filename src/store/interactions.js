@@ -13,7 +13,8 @@ import {
 } from './reducers/tokens'
 
 import {     
-    setContract
+    setContract,
+    sharesLoaded
 } from './reducers/quantipool'
 
 import TOKEN_ABI from '../abis/Token.json';
@@ -48,10 +49,10 @@ export const loadAccount = async (dispatch) => {
 export const loadTokens = async (provider, chainId, dispatch) => {
     const quip = new ethers.Contract(config[chainId].quip.address, TOKEN_ABI, provider)
     const usd = new ethers.Contract(config[chainId].usd.address, TOKEN_ABI, provider)
-
+  
     dispatch(setContracts([quip, usd]))
     dispatch(setSymbols([await quip.symbol(), await usd.symbol()]))
-}
+  }
 
 export const loadQUANTIPOOL = async (provider, chainId, dispatch) => {
     const quantipool = new ethers.Contract(config[chainId].quantipool.address, QUANTIPOOL_ABI, provider)
@@ -64,14 +65,17 @@ export const loadQUANTIPOOL = async (provider, chainId, dispatch) => {
 //------------------------------------------------
 // LOAD BALANCES & SHARES
 
-export const loadBalances = async (tokens, account, dispatch) => {
-    const balance1 = tokens[0].balanceOf(account)
-    const balance2 = tokens[1].balanceOf(account)
+export const loadBalances = async (quantipool, tokens, account, dispatch) => {
+    const balance1 = await tokens[0].balanceOf(account)
+    const balance2 = await tokens[1].balanceOf(account)
 
-    dispatch(balancesLoaded(
-        balance1,
-        balance2
-    ))
+    dispatch(balancesLoaded([
+        ethers.utils.formatUnits(balance1.toString(), 'ether'),
+        ethers.utils.formatUnits(balance2.toString(), 'ether')
+    ]))
+
+    const shares = await quantipool.shares(account)
+    dispatch(sharesLoaded(ethers.utils.formatUnits(shares.toString(), 'ether')))
 }
     
 
