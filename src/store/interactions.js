@@ -14,7 +14,10 @@ import {
 
 import {     
     setContract,
-    sharesLoaded
+    sharesLoaded,
+    swapRequest,
+    swapSuccess,
+    swapFail
 } from './reducers/quantipool'
 
 import TOKEN_ABI from '../abis/Token.json';
@@ -76,6 +79,42 @@ export const loadBalances = async (quantipool, tokens, account, dispatch) => {
 
     const shares = await quantipool.shares(account)
     dispatch(sharesLoaded(ethers.utils.formatUnits(shares.toString(), 'ether')))
+}
+
+//------------------------------------------------
+// SWAP
+
+export const swap = async (provider, quantipool, token, symbol, amount, dispatch) => {
+    try {
+    
+        dispatch(swapRequest())
+
+        let transaction
+    
+        const signer = await provider.getSigner()
+    
+        transaction = await token.connect(signer).approve(quantipool.address, amount)
+        await transaction.wait()
+    
+        if (symbol === "QP") {
+            transaction = await quantipool.connect(signer).swapTokenA(amount)
+        } else {
+            transaction = await quantipool.connect(signer).swapTokenB(amount)
+        }
+    
+        await transaction.wait()
+    
+        dispatch(swapSuccess(transaction.hash))
+
+    } catch (error) {
+        dispatch(swapFail())
+    }
+
+
+    
+
+    
+
 }
     
 
