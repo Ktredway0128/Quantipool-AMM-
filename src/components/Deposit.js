@@ -10,7 +10,10 @@ import Row from 'react-bootstrap/Row';
 
 import Alert from './Alert'
 
-import { addLiquidity, loadBalances } from '../store/interactions';
+import { 
+    addLiquidity, 
+    loadBalances 
+} from '../store/interactions';
 
 const Deposit = () => {
     const [tokenAAmount, setTokenAAmount] = useState(0)

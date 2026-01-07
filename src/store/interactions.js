@@ -18,9 +18,13 @@ import {
     depositRequest,
     depositSuccess,
     depositFail,
+    withdrawRequest,
+    withdrawSuccess,
+    withdrawFail,   
     swapRequest,
     swapSuccess,
     swapFail,
+    quantipool,
 } from './reducers/quantipool'
 
 import TOKEN_ABI from '../abis/Token.json';
@@ -111,6 +115,24 @@ export const addLiquidity = async(provider, quantipool, tokens, amounts, dispatc
 
 }
 
+//------------------------------------------------
+// REMOVE LIQUIDITY
+export const removeLiquidity = async (provider, quantipool, shares, dispatch) => {
+    try {
+        dispatch(withdrawRequest())
+
+        const signer = await provider.getSigner()
+
+        let transaction = await quantipool.connect(signer).removeLiquidity(shares)
+        await transaction.wait
+
+        dispatch(withdrawSuccess(transaction.hash))
+    } catch (error) {
+        dispatch(withdrawFail())
+    }
+
+}
+  
 
 
 
@@ -149,12 +171,6 @@ export const swap = async (provider, quantipool, token, symbol, amount, dispatch
     } catch (error) {
         dispatch(swapFail())
     }
-
-
-    
-
-    
-
 }
     
 
