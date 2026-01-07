@@ -12,7 +12,10 @@ import Row from 'react-bootstrap/Row';
 
 import Alert from './Alert'
 
-import { swap, loadBalances } from '../store/interactions'
+import { 
+    swap, 
+    loadBalances
+} from '../store/interactions'
 
 const Swap = () => {
     const [inputToken, setInputToken] = useState(null)

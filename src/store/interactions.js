@@ -15,9 +15,12 @@ import {
 import {     
     setContract,
     sharesLoaded,
+    depositRequest,
+    depositSuccess,
+    depositFail,
     swapRequest,
     swapSuccess,
-    swapFail
+    swapFail,
 } from './reducers/quantipool'
 
 import TOKEN_ABI from '../abis/Token.json';
@@ -80,6 +83,43 @@ export const loadBalances = async (quantipool, tokens, account, dispatch) => {
     const shares = await quantipool.shares(account)
     dispatch(sharesLoaded(ethers.utils.formatUnits(shares.toString(), 'ether')))
 }
+
+//------------------------------------------------
+// ADD LIQUIDITY
+export const addLiquidity = async(provider, quantipool, tokens, amounts, dispatch) => {
+    try {
+        dispatch(depositRequest())
+
+        const signer = await provider.getSigner()
+    
+        let transaction
+        
+        transaction = await tokens[0].connect(signer).approve(quantipool.address, amounts[0])
+        await transaction.wait()
+
+        transaction = await tokens[1].connect(signer).approve(quantipool.address, amounts[1])
+        await transaction.wait()
+
+        transaction = await quantipool.connect(signer).addLiquidity(amounts[0], amounts[1])
+        await transaction.wait
+
+        dispatch(depositSuccess(transaction.hash))
+    } catch (error) {
+        dispatch(depositFail())
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
 
 //------------------------------------------------
 // SWAP
