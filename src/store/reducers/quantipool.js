@@ -29,6 +29,9 @@ export const quantipool = createSlice({
         sharesLoaded: (state, action) => {
             state.shares = action.payload
         },
+        swapsLoaded: (state, action) => {
+            state.swaps = action.payload
+        },
         depositRequest: (state, action) => {
             state.depositing.isDepositing = true
             state.depositing.isSuccess = false
@@ -81,6 +84,7 @@ export const quantipool = createSlice({
 export const { 
     setContract, 
     sharesLoaded,
+    swapsLoaded,
     depositRequest,
     depositSuccess,
     depositFail,

@@ -10,11 +10,18 @@ import { loadAccount, loadBalances } from '../store/interactions'
 
 import config from '../config.json'
 
+
+import { useState } from 'react';
+
+
+
 const Navigation = () => {
   const chainId= useSelector(state => state.provider.chainId)
   const account = useSelector(state => state.provider.account)
   const tokens = useSelector(state => state.tokens.contracts)
   const quantipool = useSelector(state => state.quantipool.contract)
+
+  const [selectedNetwork, setSelectedNetwork] = useState("0");
 
   const dispatch = useDispatch()
 
@@ -24,9 +31,14 @@ const Navigation = () => {
   }
 
   const networkHandler = async (e) => {
+    const value = e.target.value;
+    setSelectedNetwork(value);
+
+    if (value === "0") return;
+
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: e.target.value }],
+      params: [{ chainId: value }],
     })
   }
   
@@ -35,8 +47,8 @@ const Navigation = () => {
       <img
         alt="logo"
         src={logo}
-        width="40"
-        height="40"
+        width="80"
+        height="80"
         className="d-inline-block align-top mx-3"
       />
       <Navbar.Brand href="#">QuantiPool</Navbar.Brand>
@@ -45,16 +57,16 @@ const Navigation = () => {
         
         <div className="d-flex justify-content-end mt-3">
 
-          <Form.Select
+        <Form.Select
             aria-label="Network Selector"
-            value={config[chainId] ? `0x${chainId.toString(16)}` : `0`}
+            value={selectedNetwork}
             onChange={networkHandler}
             style={{ maxWidth: '200px', marginRight: '20px' }}
           >
             <option value="0" disabled>Select Network</option>
             <option value="0x7A69">Localhost</option>
             <option value="0xAA36A7">Sepolia</option>
-          </Form.Select> 
+          </Form.Select>
           
       
           
@@ -65,14 +77,14 @@ const Navigation = () => {
                 seed={account}
                 size={10}
                 scale={3}
-                color="#2187D0"
+                color="#1F3B61"
                 bgColor="#F1F2F9"
                 spotColor="#767F92"
                 className="identicon mx-2"
               />
             </Navbar.Text>
           ) : (
-            <Button onClick={connectHandler}>Connect</Button>
+            <Button onClick={connectHandler} className="submit-buttons">Connect</Button>
           )}
 
         </div>

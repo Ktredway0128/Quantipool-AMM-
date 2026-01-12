@@ -1,0 +1,73 @@
+
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  body {
+    background-image: url('/public/lake-bg2.png');
+    background-size: cover;        /* fill the screen */
+    background-position: center;   /* center the image */
+    background-repeat: no-repeat;
+    background-attachment: fixed;  /* stays put on scroll */
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.15);
+    pointer-events: none;
+  }
+  
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.01); /* transparency */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px); /* Safari */
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25),
+    inset 0 0 20px rgba(255, 255, 255, 0.15);
+}
+
+.submit-buttons {
+    background-color: #1F3B61 !important; /* lighter navy default */
+    border-color: #1F3B61 !important;
+    color: white !important;
+    
+    border-radius: 5px;         /* match button style */
+    text-align: center;
+    display: inline-block;
+    text-decoration: none !important; /* remove underline if any */
+    transition: background-color 0.2s ease; /* smooth hover effect */
+}
+
+
+.submit-buttons:hover {
+    background-color: #13223C !important; /* darker navy on hover */
+    border-color: #13223C !important;
+    color: white !important;
+}
+
+.table-bordered {
+    border: 2px solid #13223C !important; /* dark navy border */
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #13223C !important; /* table cells borders */
+}
+
+.navy-alert {
+    background-color: #13223C !important;
+    border-color: #13223C !important;
+    color: white !important;
+  }
+  
+  .navy-alert a {
+    color: #9fc3ff;
+  }
+
+
+

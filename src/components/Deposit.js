@@ -81,7 +81,7 @@ const Deposit = () => {
 
     return (
         <div>
-            <Card style={{ maxWidth: '450px' }} className='mx-auto px-4'>
+            <Card style={{ maxWidth: '450px' }} className='glass-card mx-auto px-4'>
                 {account ? (
                     <Form onSubmit={depositHandler} style={{ maxWidth: '450px', margin: '50px auto' }}>
                         
@@ -129,7 +129,7 @@ const Deposit = () => {
                             {isDepositing ? (
                                 <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
                             ) : (
-                                <Button type="submit">Deposit</Button>
+                                <Button type="submit" className="submit-buttons">Deposit</Button>
                             )}
                         </Row>
 
@@ -137,9 +137,12 @@ const Deposit = () => {
                 ) : (
                     <p
                         className='d-flex justify-content-center align-items-center'
-                        style={{ height: '300px' }}
+                        style={{ 
+                            height: '300px',
+                            fontSize: '24px' 
+                        }}
                     >
-                        Please connect wallet.
+                        Please connect wallet
                     </p>
                 )}
             </Card>

@@ -5,3 +5,12 @@
   right: 100px;
   padding: 50px;
 }
+
+.outline {
+  width: 180px;          /* 👈 THIS controls logo size */
+  height: 180px;
+  background-image: url('./logo.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  mix-blend-mode: multiply; /* white becomes transparent on a colored background */
+}
