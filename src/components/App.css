@@ -63,11 +63,43 @@ html, body {
     background-color: #13223C !important;
     border-color: #13223C !important;
     color: white !important;
-  }
+}
   
-  .navy-alert a {
+.navy-alert a {
     color: #9fc3ff;
-  }
+}
 
+.circle-card {
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    padding: 40px;
+}
 
+.circle-content {
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+.connect-circle {
+    width: 100px;          /* adjust size */
+    height: 100px;         /* same as width for a perfect circle */
+    border-radius: 50%;    /* makes it circular */
+    font-size: 18px;       /* bigger text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1F3B61; /* navy blue like your other buttons */
+    color: white;
+    border: none;          /* remove default border */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* optional, makes it pop */
+    transition: transform 0.2s ease;
+}
+  
+.connect-circle:hover {
+    transform: scale(1.1); /* subtle grow on hover */
+}
+  
+
+  
 

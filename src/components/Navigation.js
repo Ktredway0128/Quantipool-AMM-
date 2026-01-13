@@ -57,16 +57,20 @@ const Navigation = () => {
         
         <div className="d-flex justify-content-end mt-3">
 
-        <Form.Select
-            aria-label="Network Selector"
-            value={selectedNetwork}
-            onChange={networkHandler}
-            style={{ maxWidth: '200px', marginRight: '20px' }}
-          >
-            <option value="0" disabled>Select Network</option>
-            <option value="0x7A69">Localhost</option>
-            <option value="0xAA36A7">Sepolia</option>
-          </Form.Select>
+        
+        {account && (
+          <Form.Select
+          aria-label="Network Selector"
+          value={selectedNetwork}
+          onChange={networkHandler}
+          style={{ maxWidth: '200px', marginRight: '20px' }}
+        >
+          <option value="0" disabled>Select Network</option>
+          <option value="0x7A69">Localhost</option>
+          <option value="0xAA36A7">Sepolia</option>
+        </Form.Select>
+        )}
+        
           
       
           
@@ -84,7 +88,12 @@ const Navigation = () => {
               />
             </Navbar.Text>
           ) : (
-            <Button onClick={connectHandler} className="submit-buttons">Connect</Button>
+            <Button 
+              onClick={connectHandler} 
+              className="submit-buttons connect-circle"
+            >
+              Connect
+            </Button>
           )}
 
         </div>

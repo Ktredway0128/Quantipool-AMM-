@@ -61,13 +61,13 @@ const Withdraw = () => {
 
     return (
         <div>
-            <Card style={{ maxWidth: '450px' }} className='glass-card mx-auto px-4'>
+            <Card className="glass-card circle-card mx-auto d-flex align-items-center justify-content-center">
                 {account ? (
                     <Form onSubmit={withdrawHandler} style={{ maxWidth: '450px', margin: '50px auto' }}>
                         
                         <Row>
                             <Form.Text className='text-end my-2' muted>
-                                Shares: {shares}
+                                Shares: {shares.toString().slice(0, 10)}
                             </Form.Text>
                             <InputGroup>
                                 <Form.Control
@@ -96,8 +96,8 @@ const Withdraw = () => {
                         <hr />
 
                         <Row>
-                            <p><strong>QP Balance:</strong> {balances[0]}</p>
-                            <p><strong>USD Balance:</strong> {balances[1]}</p>
+                            <p><strong>QP Balance:</strong> {balances[0].toString().slice(0, 10)}</p>
+                            <p><strong>USD Balance:</strong> {balances[1].toString().slice(0, 10)}</p>
                         </Row>
 
                     </Form> 

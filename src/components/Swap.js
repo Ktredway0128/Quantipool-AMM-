@@ -129,100 +129,109 @@ const Trade = () => {
                     style={{ 
                         maxWidth: '450px',
                     }} 
-                    className='glass-card mx-auto px-4'>
+                    className="glass-card circle-card mx-auto d-flex align-items-center justify-content-center"
+                    >
                     {account ? (
-                        <Form onSubmit={swapHandler} style={{ maxWidth: '450px', margin: '50px auto' }}>
-                            
-                            <Row className='my-3'>
-                                <div className='d-flex justify-content-between'>
-                                    <Form.Label><strong>Give:</strong></Form.Label>
-                                    <Form.Text muted>
-                                        Balance: {
-                                            inputToken === symbols[0] ? (
-                                                balances[0]
-                                            ) : inputToken === symbols[1] ? (
-                                                balances[1]
-                                            ) : 0
-                                        }
-                                    </Form.Text>
-                                </div>
+                        <div className="circle-content w-100">
+                            <Form onSubmit={swapHandler}>
                                 
-                                <Form.Control
-                                    type="number"
-                                    placeholder="0.0"
-                                    min="0.0"
-                                    step="any"
-                                    onChange={inputHandler}
-                                    disabled={!inputToken}
-                                    />
-
-                                    <Dropdown className="mt-2">
-                                    <Dropdown.Toggle
-                                        variant="outline-secondary"
-                                        className="w-100"
-                                    >
-                                        {inputToken ? inputToken : "Select Token"}
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu className="w-100">
-                                        <Dropdown.Item onClick={() => setInputToken("QP")}>QP</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => setInputToken("USD")}>USD</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                    </Dropdown>
-                                
-                            </Row>
-
-                            <Row className='my-4'>
-                                <div className='d-flex justify-content-between'>
-                                    <Form.Label><strong>Receive:</strong></Form.Label>
-                                    <Form.Text muted>
+                                <Row className='my-3'>
+                                    <div className='d-flex justify-content-between'>
+                                        <Form.Label className="ms-2"><strong>Give:</strong></Form.Label>
+                                        <Form.Text muted className="me-2">
                                         Balance: {
-                                            outputToken === symbols[0] ? (
-                                                balances[0]
-                                            ) : outputToken === symbols[1] ? (
-                                                balances[1]
-                                            ) : 0
+                                            inputToken === symbols[0] 
+                                                ? balances[0].toString().slice(0, 10) 
+                                                : inputToken === symbols[1] 
+                                                    ? balances[1].toString().slice(0, 10) 
+                                                    : 0
                                         }
+                                        </Form.Text>
+                                    </div>
+                                    
+                                    <Form.Control
+                                        type="number"
+                                        placeholder="0.0"
+                                        min="0.0"
+                                        step="any"
+                                        onChange={inputHandler}
+                                        disabled={!inputToken}
+                                        />
+
+                                        <Dropdown className="mt-2">
+                                        <Dropdown.Toggle
+                                            variant="outline-secondary"
+                                            className="w-100"
+                                        >
+                                            {inputToken ? inputToken : "Select Token"}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu className="w-100">
+                                            <Dropdown.Item onClick={() => setInputToken("QP")}>QP</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => setInputToken("USD")}>USD</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                        </Dropdown>
+                                    
+                                </Row>
+
+                                <Row className='my-4'>
+                                    <div className='d-flex justify-content-between'>
+                                        <Form.Label className="ms-2"><strong>Receive:</strong></Form.Label>
+                                        <Form.Text muted className="me-2">
+                                        Balance: {
+                                            outputToken === symbols[0] 
+                                                ? balances[0].toString().slice(0, 10) 
+                                                : outputToken === symbols[1] 
+                                                    ? balances[1].toString().slice(0, 10) 
+                                                    : 0
+                                        }
+                                        </Form.Text>
+                                    </div>
+
+                                    <Form.Control
+                                        type="number"
+                                        placeholder="0.0"
+                                        min="0.0"
+                                        step="any"
+                                        onChange={inputHandler}
+                                        disabled={!inputToken}
+                                        />
+
+                                        <Dropdown className="mt-2">
+                                        <Dropdown.Toggle
+                                            variant="outline-secondary"
+                                            className="w-100"
+                                        >
+                                            {outputToken ? outputToken : "Select Token"}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu className="w-100">
+                                            <Dropdown.Item onClick={() => setOutputToken("QP")}>QP</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => setOutputToken("USD")}>USD</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                        </Dropdown>                                
+                                </Row>
+
+                                <Row className='my-3'>
+                                    {isSwapping ? (
+                                        <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
+                                    ) : (
+                                        <Button 
+                                            type='submit' 
+                                            className="submit-buttons"
+                                            style={{ marginTop: '-8px' }}
+                                        >
+                                            Trade
+                                        </Button>
+                                    )}
+
+                                    <Form.Text muted style={{ marginLeft: '70px' }}>
+                                        Exchange Rate: {price.toString().slice(0, 10)}
                                     </Form.Text>
-                                </div>
+                                </Row>
 
-                                <Form.Control
-                                    type="number"
-                                    placeholder="0.0"
-                                    min="0.0"
-                                    step="any"
-                                    onChange={inputHandler}
-                                    disabled={!inputToken}
-                                    />
-
-                                    <Dropdown className="mt-2">
-                                    <Dropdown.Toggle
-                                        variant="outline-secondary"
-                                        className="w-100"
-                                    >
-                                        {outputToken ? outputToken : "Select Token"}
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu className="w-100">
-                                        <Dropdown.Item onClick={() => setOutputToken("QP")}>QP</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => setOutputToken("USD")}>USD</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                    </Dropdown>                                
-                            </Row>
-
-                            <Row className='my-3'>
-                                {isSwapping ? (
-                                    <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
-                                ) : (
-                                    <Button type='submit' className="submit-buttons">Trade</Button>
-                                )}
-
-                                <Form.Text muted>
-                                    Exchange Rate: {price}
-                                </Form.Text>
-                            </Row>
-
-                        </Form>
+                            </Form>
+                        </div>
                     ) : (
                         <p
                         className='d-flex justify-content-center align-items-center'
