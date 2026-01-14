@@ -43,15 +43,15 @@ const Navigation = () => {
   }
   
   return (
-    <Navbar className='my-3' expand="lg">
+    <Navbar move-logo className='my-3' expand="lg">
       <img
         alt="logo"
         src={logo}
         width="80"
         height="80"
-        className="d-inline-block align-top mx-3"
+        className="d-inline-block align-top mx-3 "
       />
-      <Navbar.Brand href="#">QuantiPool</Navbar.Brand>
+      <Navbar.Brand href="#" className="">QuantiPool</Navbar.Brand>
       <Navbar.Toggle aria-controls="nav" />
       <Navbar.Collapse id="nav" className="justify-content-end">
         

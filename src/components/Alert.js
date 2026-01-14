@@ -6,7 +6,7 @@ const Alert = ({ message, transactionHash, variant, setShowAlert }) => {
             variant={variant}
             onClose={() => setShowAlert(false)}
             dismissible
-            className='alert'        
+            className='alert custom-alert'       
         >
             <BootstrapAlert.Heading>{message}</BootstrapAlert.Heading>
 

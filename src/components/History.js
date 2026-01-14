@@ -58,31 +58,32 @@ const History = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {chart.swaps && chart.swaps.map((swap, index) => (
-                            <tr key={index}>
-                            <td>{swap.hash.slice(0, 5) + '...' + swap.hash.slice(61, 66)}</td>
-                            <td>{swap.args.tokenGive === tokens[0].address ? symbols[0] : symbols[1]}</td>
-                            <td>{ethers.utils.formatUnits(swap.args.tokenGiveAmount.toString(), 'ether')}</td>
-                            <td>{swap.args.tokenGet === tokens[0].address ? symbols[0] : symbols[1]}</td>
-                            <td>{ethers.utils.formatUnits(swap.args.tokenGetAmount.toString(), 'ether')}</td>
-                            <td>{swap.args.user.slice(0, 5) + '...' + swap.args.user.slice(38, 42)}</td>
-                            <td>{
-                                new Date(Number(swap.args.timestamp.toString() + '000'))
-                                .toLocaleDateString(
-                                    undefined,
-                                    {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    second: 'numeric'
-                                    }
-                                )
-                            }</td>
-                            </tr>
-                        ))}
+                            {chart.swaps && 
+                                // Sort by timestamp descending first, then take the first 6
+                                chart.swaps
+                                .slice() // make a copy to avoid mutating state
+                                .sort((a, b) => Number(b.args.timestamp) - Number(a.args.timestamp)) // newest first
+                                .slice(0, 6) // only keep 6
+                                .map((swap, index) => (
+                                    <tr key={index}>
+                                    <td>{swap.hash.slice(0, 5) + '...' + swap.hash.slice(61, 66)}</td>
+                                    <td>{swap.args.tokenGive === tokens[0].address ? symbols[0] : symbols[1]}</td>
+                                    <td>{ethers.utils.formatUnits(swap.args.tokenGiveAmount.toString(), 'ether')}</td>
+                                    <td>{swap.args.tokenGet === tokens[0].address ? symbols[0] : symbols[1]}</td>
+                                    <td>{ethers.utils.formatUnits(swap.args.tokenGetAmount.toString(), 'ether')}</td>
+                                    <td>{swap.args.user.slice(0, 5) + '...' + swap.args.user.slice(38, 42)}</td>
+                                    <td>{new Date(Number(swap.args.timestamp.toString() + '000')).toLocaleDateString(undefined, {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        second: 'numeric'
+                                    })}</td>
+                                 </tr>
+                            ))}
                         </tbody>
+
                     </Table>
                 </div>
             </div>

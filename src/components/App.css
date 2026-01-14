@@ -69,6 +69,20 @@ html, body {
     color: #9fc3ff;
 }
 
+.earth-maroon-alert.alert {
+    background-color: #7B3F3F !important; /* earthy maroon */
+    color: #fff !important;              /* text color */
+    border-color: #5C2A2A !important;   /* darker border for depth */
+}
+
+.success-alert.alert {
+    background-color: #2E7D32 !important;
+    color: #fff !important;
+    border-color: #1B5E20 !important;
+}
+
+
+
 .circle-card {
     width: 450px;
     height: 450px;
@@ -82,6 +96,9 @@ html, body {
 }
 
 .connect-circle {
+    
+    top: 20px;         /* distance from top of page */
+    right: 150px;       /* distance from right of page */
     width: 100px;          /* adjust size */
     height: 100px;         /* same as width for a perfect circle */
     border-radius: 50%;    /* makes it circular */
@@ -99,6 +116,30 @@ html, body {
 .connect-circle:hover {
     transform: scale(1.1); /* subtle grow on hover */
 }
+
+.move-logo {
+    position: fixed;   /* stays fixed on screen */
+    top: 20px;         /* distance from top of page */
+    left: 150px;
+}
+
+.brand-fixed {
+    position: fixed;       /* keeps it on screen */
+    top: 50px;             /* vertically aligned with logo (adjust as needed) */
+    left: 260px;           /* logo width (80px) + margin (20px + 10px spacing) */
+}
+
+.alert-heading {
+    font-size: 50px;
+}
+
+.alert-primary {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #1F3B61 !important;
+}
+
   
 
   

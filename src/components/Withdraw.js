@@ -93,7 +93,7 @@ const Withdraw = () => {
                             )}
                         </Row>
 
-                        <hr />
+                        
 
                         <Row>
                             <p><strong>QP Balance:</strong> {balances[0].toString().slice(0, 10)}</p>
@@ -117,24 +117,24 @@ const Withdraw = () => {
             </Card>
 
             {isWithdrawing? (
-                <Alert 
+                <Alert
+                    className="custom-alert"  
                     message={'Withdraw Pending...'}
                     transactionHash={null}
-                    variant={'info'}
                     setShowAlert={setShowAlert}
                 />
             ) : isSuccess && showAlert ? (
-                <Alert 
+                <Alert
+                    className="custom-alert"  
                     message={'Withdraw Successful'}
                     transactionHash={transactionHash}
-                    variant={'success'}
                     setShowAlert={setShowAlert}
                 />
             ) : !isSuccess && showAlert ? (
-                <Alert 
+                <Alert
+                    className="custom-alert"  
                     message={'Withdraw Failure'}
                     transactionHash={null}
-                    variant={'danger'}
                     setShowAlert={setShowAlert}
                 />
             ) : (
