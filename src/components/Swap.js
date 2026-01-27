@@ -126,9 +126,6 @@ const Trade = () => {
         <div>
             <div>
                 <Card 
-                    style={{ 
-                        maxWidth: '450px',
-                    }} 
                     className="glass-card circle-card mx-auto d-flex align-items-center justify-content-center"
                     >
                     {account ? (
@@ -255,12 +252,30 @@ const Trade = () => {
                         
                     />
                 ) : isSuccess && showAlert ? (
-                    <Alert
-                        className="custom-alert"
-                        message={'Trade Successful'}
-                        transactionHash={transactionHash}
-                        setShowAlert={setShowAlert}
-                    />
+                    <>
+                        <Alert
+                            className="custom-alert"
+                            message={'Trade Successful'}
+                            transactionHash={transactionHash}
+                            setShowAlert={setShowAlert}
+                        />
+                        {transactionHash && (
+                            <p style={{ marginTop: '-30px', 
+                                        textAlign: 'left', 
+                                        fontSize: '16px', 
+                                        marginLeft: '-80px', 
+                                        fontWeight: 'bold' }}>
+                                View on{' '}
+                                <a
+                                    href={`https://sepolia.etherscan.io/tx/${transactionHash}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Etherscan
+                                </a>
+                            </p>
+                        )}
+                    </>
                 ) : !isSuccess && showAlert ? (
                     <Alert
                         className="custom-alert"

@@ -9,5 +9,16 @@
     "quantipool": {
       "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
     }
+  },
+  "11155111": {
+    "quip": {
+      "address": "0xac0bB0a0842cc589548d0fed3aC72F1446AF87d9"
+    },
+    "usd": {
+      "address": "0x5bBCF85B82e9Fe351A1bd1ec8F2Cf4d7B8831694"
+    },
+    "quantipool": {
+      "address": "0x6DB61a86FadB0388B8Efa42b5CEd46956d2278fC"
+    }
   }
 }

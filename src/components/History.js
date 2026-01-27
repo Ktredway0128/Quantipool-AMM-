@@ -39,8 +39,7 @@ const History = () => {
                     marginTop: '140px',
                     backgroundColor: 'rgba(19, 34, 60, 0.15)', /* dark navy with transparency */
                     borderRadius: '10px',
-                    backdropFilter: 'blur(5px)', // blurs the image behind
-                    
+                    backdropFilter: 'blur(5px)', // blurs the image behind    
                 }}
             >
 
@@ -85,17 +84,49 @@ const History = () => {
                         </tbody>
 
                     </Table>
-                </div>
-            </div>
+
+                    {/* 👉 Etherscan full history link */}
+                    {quantipool && (
+                        <div style={{ 
+                            padding: '10px 15px', 
+                            textAlign: 'left',
+                            fontWeight: 'bold' 
+                        }}>
+                            <a
+                                href={`https://sepolia.etherscan.io/address/${quantipool.address}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                    color: '#062f6e',   // nice deep blue (Etherscan-ish)
+                                    fontSize: '22px',
+                                    textDecoration: 'underline',
+                                    transition: 'color 0.2s ease, transform 0.2s ease',
+                                    display: 'inline-block'   
+                                }}
+                                onMouseOver={e => {
+                                    e.target.style.color = '#041f4d'
+                                    e.target.style.transform = 'scale(1.05)'   // 👈 grow ~5%
+                                }}
+                                onMouseOut={e => {
+                                    e.target.style.color = '#062f6e'
+                                    e.target.style.transform = 'scale(1)'
+                                }}
+                            >
+                                View full transaction history on Etherscan
+                            </a>
+                        </div>
+                    )}
+                </div>   
+
+            </div>       
 
         ) : (
             <Loading/>
         )}
 
     </div>
-    );
+);
 }
-
 export default History;
 
 

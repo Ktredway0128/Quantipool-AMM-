@@ -63,46 +63,45 @@ const Withdraw = () => {
         <div>
             <Card className="glass-card circle-card mx-auto d-flex align-items-center justify-content-center">
                 {account ? (
-                    <Form onSubmit={withdrawHandler} style={{ maxWidth: '450px', margin: '50px auto' }}>
+                    <div style={{ width: '100%' }}> {/* container inside the card */}
+                        <Form onSubmit={withdrawHandler} style={{ maxWidth: '450px', margin: '50px auto' }}>
                         
-                        <Row>
-                            <Form.Text className='text-end my-2' muted>
-                                Shares: {shares.toString().slice(0, 10)}
-                            </Form.Text>
-                            <InputGroup>
-                                <Form.Control
-                                    type="number"
-                                    placeholder="0"
-                                    min="0.0"
-                                    step="any"
-                                    id="shares"
-                                    value={amount === 0 ? "" : amount}
-                                    onChange={(e) => setAmount(e.target.value)}
-                                />
-                                <InputGroup.Text style={{ width: "100px" }} className="justify-content-center">
-                                    Shares
-                                </InputGroup.Text>
-                            </InputGroup>
-                        </Row>
+                            <Row>
+                                <Form.Text className='text-end my-2' muted>
+                                    Shares: {shares.toString().slice(0, 10)}
+                                </Form.Text>
+                                <InputGroup>
+                                    <Form.Control
+                                        type="number"
+                                        placeholder="0"
+                                        min="0.0"
+                                        step="any"
+                                        id="shares"
+                                        value={amount === 0 ? "" : amount}
+                                        onChange={(e) => setAmount(e.target.value)}
+                                    />
+                                    <InputGroup.Text style={{ width: "100px" }} className="justify-content-center">
+                                        Shares
+                                    </InputGroup.Text>
+                                </InputGroup>
+                            </Row>
 
-                        <Row className='my-3'>
-                            {isWithdrawing ? (
-                                <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
-                            ) : (
-                                <Button type="submit" className="submit-buttons">Withdraw</Button>
-                            )}
-                        </Row>
+                            <Row className='my-3'>
+                                {isWithdrawing ? (
+                                    <Spinner animation="border" style={{ display: 'block', margin: '0 auto' }} />
+                                ) : (
+                                    <Button type="submit" className="submit-buttons">Withdraw</Button>
+                                )}
+                            </Row>
 
-                        
+                        </Form>
 
-                        <Row>
+                        {/* Only this part moves down */}
+                        <div style={{ marginTop: '80px', textAlign: 'center' }}>
                             <p><strong>QP Balance:</strong> {balances[0].toString().slice(0, 10)}</p>
                             <p><strong>USD Balance:</strong> {balances[1].toString().slice(0, 10)}</p>
-                        </Row>
-
-                    </Form> 
-                            
-                    
+                        </div>
+                    </div>
                 ) : (
                     <p
                         className='d-flex justify-content-center align-items-center'
@@ -124,12 +123,33 @@ const Withdraw = () => {
                     setShowAlert={setShowAlert}
                 />
             ) : isSuccess && showAlert ? (
-                <Alert
-                    className="custom-alert"  
-                    message={'Withdraw Successful'}
-                    transactionHash={transactionHash}
-                    setShowAlert={setShowAlert}
-                />
+                <>
+                    <Alert
+                        className="custom-alert"
+                        message={'Withdraw Successful'}
+                        transactionHash={transactionHash}   // use the same transactionHash
+                        setShowAlert={setShowAlert}
+                    />
+                    {transactionHash && (
+                        <p style={{ 
+                            marginTop: '-30px', 
+                            textAlign: 'left', 
+                            fontSize: '16px', 
+                            marginLeft: '-80px', 
+                            fontWeight: 'bold'
+                        }}>
+                            View on{' '}
+                            <a
+                                href={`https://sepolia.etherscan.io/tx/${transactionHash}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: '#0d6efd' }}
+                            >
+                                Etherscan
+                            </a>
+                        </p>
+                    )}
+                </>
             ) : !isSuccess && showAlert ? (
                 <Alert
                     className="custom-alert"  

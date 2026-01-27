@@ -29,6 +29,7 @@ html, body {
     border: 1px solid rgba(255, 255, 255, 0.45);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25),
     inset 0 0 20px rgba(255, 255, 255, 0.15);
+    
 }
 
 .submit-buttons {
@@ -84,14 +85,14 @@ html, body {
 
 
 .circle-card {
-    width: 450px;
-    height: 450px;
+    width: 600px;
+    height: 600px;
     border-radius: 50%;
     padding: 40px;
 }
 
 .circle-content {
-    max-width: 320px;
+    max-width: 360px;
     margin: 0 auto;
 }
 

@@ -6,6 +6,8 @@
 // global scope, and execute the script.
 const hre = require("hardhat");
 const config = require('../src/config.json')
+require("dotenv").config()
+
 
 const tokens = (n) => {
     return ethers.utils.parseUnits(n.toString(), 'ether')
@@ -19,15 +21,41 @@ async function main() {
     
     // Fetch accounts
     console.log(`Fetching accounts & network \n`)
-    const accounts = await ethers.getSigners()
-    const deployer = accounts[0]
-    const investor1 = accounts[1]
-    const investor2 = accounts[2]
-    const investor3 = accounts[3]
-    const investor4 = accounts[4]
+    // const accounts = await ethers.getSigners()
+    // const deployer = accounts[0]
+    // const investor1 = accounts[1]
+    // const investor2 = accounts[2]
+    // const investor3 = accounts[3]
+    // const investor4 = accounts[4]
 
-    // Fetch network
+    // const provider = ethers.provider
+    // sepoliaInvestor5  = new ethers.Wallet(process.env.INVESTOR5_PK, provider)
+    // sepoliaInvestor6 = new ethers.Wallet(process.env.INVESTOR6_PK, provider)
+    // sepoliaInvestor7 = new ethers.Wallet(process.env.INVESTOR7_PK, provider)
+    // sepoliaInvestor8 = new ethers.Wallet(process.env.INVESTOR8_PK, provider)
+
     const { chainId } = await ethers.provider.getNetwork()
+
+    // let deployer, investor1, investor2, investor3, investor4
+
+    if (chainId === 31337) {
+      // Hardhat
+      const accounts = await ethers.getSigners()
+      ;[deployer = accounts[0], 
+        investor1 = accounts[1], 
+        investor2 = accounts[2], 
+        investor3 = accounts[3], 
+        investor4 = accounts[4]] = accounts
+
+    } else {
+      // Sepolia
+      const provider = ethers.provider
+      deployer  = new ethers.Wallet(process.env.DEPLOYER_PK, provider)
+      investor1 = new ethers.Wallet(process.env.INVESTOR1_PK, provider)
+      investor2 = new ethers.Wallet(process.env.INVESTOR2_PK, provider)
+      investor3 = new ethers.Wallet(process.env.INVESTOR3_PK, provider)
+      investor4 = new ethers.Wallet(process.env.INVESTOR4_PK, provider)
+    }
 
     console.log(`Fetching token and transferring to accounts...\n`)
 
@@ -79,6 +107,9 @@ async function main() {
 
     transaction = await usd.connect(deployer).approve(quantipool.address, amount)
     await transaction.wait()
+
+
+
 
     // Deployer adds liquidity
     console.log(`Adding liquidity...\n`)
@@ -158,3 +189,6 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+
+
+// new accounts, add test sepolia, hardcode the addresses into the file
