@@ -149,18 +149,24 @@ const Deposit = () => {
 
             {isDepositing ? (
                 <Alert
-                    className="custom-alert" 
                     message={'Deposit Pending...'}
                     transactionHash={null}
                     setShowAlert={setShowAlert}
+                    style={{
+                        border: '2px solid #062f6e',
+                        color: '#062f6e',
+                    }}
                 />
             ) : isSuccess && showAlert ? (
                 <>
                     <Alert
-                        className="custom-alert"
                         message={'Deposit Successful'}
                         transactionHash={transactionHash}   // use the same transactionHash
                         setShowAlert={setShowAlert}
+                        style={{
+                            border: '2px solid #014421',           
+                            color: '#014421' 
+                        }}
                     />
                     {transactionHash && (
                         <p style={{ 
@@ -184,10 +190,13 @@ const Deposit = () => {
                 </>
             ) : !isSuccess && showAlert ? (
                 <Alert
-                    className="custom-alert" 
                     message={'Deposit Failure'}
                     transactionHash={null}
                     setShowAlert={setShowAlert}
+                    style={{
+                        border: '2px solid #5b0f14',
+                        color: '#5b0f14',
+                    }}
                 />
             ) : (
                 <></>

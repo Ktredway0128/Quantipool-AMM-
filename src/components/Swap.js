@@ -244,20 +244,27 @@ const Trade = () => {
 
                 {isSwapping ? (
                     <Alert 
-                        className="custom-alert"
                         message={'Trade Pending...'}
                         transactionHash={null}
-                        
                         setShowAlert={setShowAlert}
+                        style={{
+                            border: '2px solid #062f6e',
+                            color: '#062f6e',
+                        }}
                         
                     />
                 ) : isSuccess && showAlert ? (
                     <>
                         <Alert
-                            className="custom-alert"
                             message={'Trade Successful'}
                             transactionHash={transactionHash}
                             setShowAlert={setShowAlert}
+                            style={{
+                                border: '2px solid #014421',           
+                                color: '#014421' 
+                            }}
+                            
+                            
                         />
                         {transactionHash && (
                             <p style={{ marginTop: '-30px', 
@@ -278,10 +285,13 @@ const Trade = () => {
                     </>
                 ) : !isSuccess && showAlert ? (
                     <Alert
-                        className="custom-alert"
                         message={'Trade Failure'}
                         transactionHash={null}
                         setShowAlert={setShowAlert}
+                        style={{
+                            border: '2px solid #5b0f14',
+                            color: '#5b0f14',
+                        }}
                     />
                 ) : (
                     <></>
