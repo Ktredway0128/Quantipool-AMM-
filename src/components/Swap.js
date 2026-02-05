@@ -188,10 +188,8 @@ const Trade = () => {
                                     <Form.Control
                                         type="number"
                                         placeholder="0.0"
-                                        min="0.0"
-                                        step="any"
-                                        onChange={inputHandler}
-                                        disabled={!inputToken}
+                                        value={outputAmount === 0 ? "" : outputAmount }
+                                        disabled
                                         />
 
                                         <Dropdown className="mt-2">

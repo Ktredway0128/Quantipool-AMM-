@@ -117,6 +117,7 @@ const Deposit = () => {
                                         id="tokenB"
                                         onChange={(e) => amountHandler(e)}
                                         value={tokenBAmount === 0 ? "" : tokenBAmount}
+                                        disabled
 
                                     />
                                     <InputGroup.Text style={{ width: "100px" }} className="justify-content-center">

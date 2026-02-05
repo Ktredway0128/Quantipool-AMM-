@@ -21,18 +21,6 @@ async function main() {
     
     // Fetch accounts
     console.log(`Fetching accounts & network \n`)
-    // const accounts = await ethers.getSigners()
-    // const deployer = accounts[0]
-    // const investor1 = accounts[1]
-    // const investor2 = accounts[2]
-    // const investor3 = accounts[3]
-    // const investor4 = accounts[4]
-
-    // const provider = ethers.provider
-    // sepoliaInvestor5  = new ethers.Wallet(process.env.INVESTOR5_PK, provider)
-    // sepoliaInvestor6 = new ethers.Wallet(process.env.INVESTOR6_PK, provider)
-    // sepoliaInvestor7 = new ethers.Wallet(process.env.INVESTOR7_PK, provider)
-    // sepoliaInvestor8 = new ethers.Wallet(process.env.INVESTOR8_PK, provider)
 
     const { chainId } = await ethers.provider.getNetwork()
 
@@ -94,7 +82,7 @@ async function main() {
     // Adding Liquidity
     // 
 
-    let amount = tokens(100)
+    let amount = tokens(50_000)
 
     console.log(`Fetching QUAINTPOOL...\n`)
 
@@ -111,6 +99,7 @@ async function main() {
 
 
 
+
     // Deployer adds liquidity
     console.log(`Adding liquidity...\n`)
     transaction = await quantipool.connect(deployer).addLiquidity(amount, amount)
@@ -123,7 +112,7 @@ async function main() {
     console.log(`Investor 1 Swaps...\n`)
 
     // Investor approves all tokens
-    transaction = await quip.connect(investor1).approve(quantipool.address, tokens(10))
+    transaction = await quip.connect(investor1).approve(quantipool.address, tokens(50))
     await transaction.wait()
 
     // Investor swaps 1 token
@@ -137,7 +126,7 @@ async function main() {
     console.log(`Investor 2 Swaps...\n`)
 
     // Investor approves all tokens
-    transaction = await usd.connect(investor2).approve(quantipool.address, tokens(10))
+    transaction = await usd.connect(investor2).approve(quantipool.address, tokens(50))
     await transaction.wait()
 
     // Investor swaps 1 token
@@ -152,11 +141,11 @@ async function main() {
     console.log(`Investor 3 Swaps...\n`)
 
     // Investor approves all tokens
-    transaction = await quip.connect(investor3).approve(quantipool.address, tokens(10))
+    transaction = await quip.connect(investor3).approve(quantipool.address, tokens(50))
     await transaction.wait()
 
     // Investor swaps all 10 tokens
-    transaction = await quantipool.connect(investor3).swapTokenA(tokens(10))
+    transaction = await quantipool.connect(investor3).swapTokenA(tokens(2))
     await transaction.wait() 
 
     
@@ -170,11 +159,11 @@ async function main() {
     
 
     // Investor approves all tokens
-    transaction = await usd.connect(investor4).approve(quantipool.address, tokens(10))
+    transaction = await usd.connect(investor4).approve(quantipool.address, tokens(50))
     await transaction.wait()
 
     // Investor swaps 5 tokens
-    transaction = await quantipool.connect(investor4).swapTokenB(tokens(5))
+    transaction = await quantipool.connect(investor4).swapTokenB(tokens(0.5))
     await transaction.wait() 
 
     console.log(`Finished.\n`)
