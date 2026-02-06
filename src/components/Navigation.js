@@ -8,7 +8,7 @@ import logo from '../logo.png';
 
 import { loadAccount, loadBalances } from '../store/interactions'
 
-import config from '../config.json'
+
 
 
 import { useState } from 'react';
@@ -16,7 +16,6 @@ import { useState } from 'react';
 
 
 const Navigation = () => {
-  const chainId= useSelector(state => state.provider.chainId)
   const account = useSelector(state => state.provider.account)
   const tokens = useSelector(state => state.tokens.contracts)
   const quantipool = useSelector(state => state.quantipool.contract)

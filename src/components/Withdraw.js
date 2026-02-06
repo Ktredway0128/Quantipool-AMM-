@@ -14,7 +14,7 @@ import {
     removeLiquidity,
     loadBalances
 } from '../store/interactions';
-import { quantipool } from '../store/reducers/quantipool';
+
 
 
 const Withdraw = () => {
